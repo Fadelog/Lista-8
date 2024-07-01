@@ -15,12 +15,11 @@ def ordem_decrescente(lista1, lista2):
         else:
             nova_lista.append(lista2[j])
             j+=1
-    if len(lista1)>len(lista2): #adiciona os elementos que sobraram da lista maior
-        while i<len(lista1):
+#Adiciona os elementos que sobraram da lista maior
+    while i<len(lista1):
             nova_lista.append(lista1[i])
             i+=1
-    else:
-        while j<len(lista2):
+    while j<len(lista2):
             nova_lista.append(lista2[j])
             j+=1
     return nova_lista
