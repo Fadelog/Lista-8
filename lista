@@ -4,18 +4,18 @@ def ordem_decrescente(lista1, lista2):
     i=0
     j=0
     nova_lista=[]
-    while i<len(lista1) and j<len(lista2):
+    while i<len(lista1) and j<len(lista2): #põe os números em ordem numa nova lista
         if lista1[i]>lista2[j]:
             nova_lista.append(lista1[i])
             i+=1
-        elif lista1[i]==lista2[j]:
+        elif lista1[i]==lista2[j]: #essa parte do código evita repetições
             nova_lista.append(lista2[j])
             j+=1
             i+=1
         else:
             nova_lista.append(lista2[j])
             j+=1
-    if len(lista1)>len(lista2):
+    if len(lista1)>len(lista2): #adiciona os elementos que sobraram da lista maior
         while i<len(lista1):
             nova_lista.append(lista1[i])
             i+=1
@@ -31,12 +31,12 @@ ordem_decrescente([5, 4, 2, 1, 0, -1, -10000], [79, 60, 30, 20, 10, 9, 3, 1, 0.5
 def vamos_comprar(N, K, lista):
   compras=[lista[0]]
   for i in range(1,len(lista)):
-    contagem=0
+    contagem=0 #conta quantos elementos repetidos tem num range K
     for j in range(0, K):
       if i-j>=0:
         if lista[i] == lista[i-j-1]:
           contagem+=1
-    if contagem==0:
+    if contagem==0:#se não houverem elementos repetidos o item é comprado
       compras.append(lista[i])   
   return len(compras)
 vamos_comprar(8, 3, [1, 8, 9, 10, 10, 8 ,1])
