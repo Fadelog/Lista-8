@@ -62,3 +62,35 @@ def string_valida(string):
 
 string_valida(')))((( ')
 
+#Questão 4
+
+class Point2D:
+    def __init__(self, x, y):
+        self.coord=(x, y)
+
+    def __str__(self):
+        return (f"({self.coord[0]}, {self.coord[1]})")
+class Polygon:
+    def __init__(self, points:list[Point2D], color:str):
+        self.points=points
+        self.color=color
+    def printar_poligono(self):
+        points_str = "["
+        for i, point in enumerate(self.points):
+            if i > 0:
+                points_str += ", "
+            points_str += str(point)
+        points_str += "]"
+        print(f"Polygon({points_str}, '{self.color}')")
+
+if __name__== '__main__':
+    ponto1 =Point2D(3, 4)
+    ponto2=Point2D(0, 1)
+
+    print(ponto1.__str__())
+    print(ponto2.__str__())
+
+    poligono=Polygon([ponto1, ponto2], 'blue')
+
+    poligono.printar_poligono()
+
