@@ -65,32 +65,105 @@ string_valida(')))((( ')
 #Questão 4
 
 class Point2D:
-    def __init__(self, x, y):
-        self.coord=(x, y)
-
+    def __init__(self, x: float, y: float):
+        self.coord = (x, y)
+    
     def __str__(self):
-        return (f"({self.coord[0]}, {self.coord[1]})")
+        return f"({self.coord[0]}, {self.coord[1]})"
+    
 class Polygon:
-    def __init__(self, points:list[Point2D], color:str):
-        self.points=points
-        self.color=color
+    def __init__(self, points: list[Point2D], color: str):
+        self.points = points
+        self.color = color
+    
     def printar_poligono(self):
-        points_str = "["
-        for i, point in enumerate(self.points):
-            if i > 0:
-                points_str += ", "
-            points_str += str(point)
-        points_str += "]"
-        print(f"Polygon({points_str}, '{self.color}')")
+        points_str = []
+        for point in self.points:
+            points_str.append(str(point))
+        points_str = ", ".join(points_str)
+        print(f"Polygon([{points_str}], '{self.color}')")
 
-if __name__== '__main__':
-    ponto1 =Point2D(3, 4)
-    ponto2=Point2D(0, 1)
+class Polygons:
+    def __init__(self):
+        self.lista_poligonos = []
 
+    def add_polygon(self, polygon: Polygon, name: str):
+        self.lista_poligonos.append((polygon, name))
+
+    def remove_polygon(self, name: str):
+        updated_list = []
+        for polygon, polygon_name in self.lista_poligonos:
+            if polygon_name != name:
+                updated_list.append((polygon, polygon_name))
+        self.lista_poligonos = updated_list
+
+    def printar_poligonos(self):
+        for polygon, name in self.lista_poligonos:
+            polygon.printar_poligono()
+
+    def save_to_file(self, filename: str):
+        with open(filename, 'w') as file:
+            for polygon, name in self.lista_poligonos:
+                file.write(f"{name}:\n")
+                file.write(f"Color: {polygon.color}\n")
+                file.write("Points:\n")
+                for point in polygon.points:
+                    file.write(f"({point.coord[0]}, {point.coord[1]})\n")
+                file.write("\n")
+    
+    def load_from_file(self, filename: str):
+        self.lista_poligonos = []
+        with open(filename, 'r') as file:
+            lines = file.readlines()
+            i = 0
+            while i < len(lines):
+                if lines[i].strip() == "":
+                    i += 1
+                    continue
+                name = lines[i].strip().rstrip(":")
+                color = lines[i + 1].strip().split(": ")[1]
+                points = []
+                i += 3
+                while i < len(lines) and lines[i].strip() != "":
+                    x, y = lines[i].strip().strip("()").split(", ")
+                    points.append(Point2D(float(x), float(y)))
+                    i += 1
+                polygon = Polygon(points, color)
+                self.add_polygon(polygon, name)
+                i += 1
+
+
+if __name__ == '__main__':
+    ponto1 = Point2D(3, 4)
+    ponto2 = Point2D(0, 1)
+    ponto3 = Point2D(3, 5)
+    ponto4 = Point2D(1, 0)
+
+    print('Pontos:')
     print(ponto1.__str__())
     print(ponto2.__str__())
+    print(ponto3.__str__())
+    print(ponto4.__str__())
 
-    poligono=Polygon([ponto1, ponto2], 'blue')
+    poligono = Polygon([ponto1, ponto2, ponto3, ponto1], 'blue')
+    poligono2 = Polygon([ponto4, ponto3, ponto1, ponto4],'pink')
 
-    poligono.printar_poligono()
+    poligonos = Polygons()
+    poligonos.add_polygon(poligono, 'pol1')
+    poligonos.add_polygon(poligono2, 'pol2')
 
+    print("\nPolígonos adicionados:")
+    poligonos.printar_poligonos()
+
+    poligonos.remove_polygon('pol1')
+
+    print('\nO que restou:')
+    poligonos.printar_poligonos()
+
+    poligonos.save_to_file('poligonos.txt')
+
+    polygons_carregados = Polygons()
+    polygons_carregados.load_from_file('poligonos.txt')
+
+    print("\nPolígonos carregados:")
+    polygons_carregados.printar_poligonos()
