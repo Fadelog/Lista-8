@@ -167,3 +167,43 @@ if __name__ == '__main__':
 
     print("\nPolígonos carregados:")
     polygons_carregados.printar_poligonos()
+
+#Questão 5
+
+import Polygons
+import turtle 
+def plot_polygons(polygons):
+    screen = turtle.Screen()
+    
+    for polygon, name in polygons.lista_poligonos:
+        t = turtle.Turtle()
+        t.color(polygon.color)
+        t.penup()
+        t.goto(polygon.points[0].coord)
+        t.pendown()
+        
+        for point in polygon.points[1:]:
+            t.goto(point.coord)
+        
+        t.goto(polygon.points[0].coord)
+    
+    turtle.done()
+
+
+if __name__ == '__main__':
+
+    ponto1 = Polygons.Point2D(100, 40)
+    ponto2 = Polygons.Point2D(0, 10)
+    ponto3 = Polygons.Point2D(30, 50)
+    ponto4 = Polygons.Point2D(10, 0)
+
+    poligono = Polygons.Polygon([ponto1, ponto2, ponto3, ponto1], 'blue')
+    poligono2 = Polygons.Polygon([ponto4, ponto3, ponto1, ponto4], 'pink')
+
+    poligonos = Polygons.Polygons()
+    poligonos.add_polygon(poligono, 'pol1')
+    poligonos.add_polygon(poligono2, 'pol2')
+
+    plot_polygons(poligonos)
+
+
